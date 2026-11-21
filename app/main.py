@@ -29,7 +29,11 @@ def create_app():
     def review(run_id):
         data=request.get_json(silent=True) or {}
         if not isinstance(data.get('version'),int):raise DomainError('VERSION','请提交复核版本')
-        return jsonify(store.review(run_id,data['version'],data.get('decision')))
+        reviewer=data.get('reviewer','');material=data.get('material','')
+        if not isinstance(reviewer,str) or not isinstance(material,str):raise DomainError('SIGNATURE','签字人与复检材料必须是文本')
+        return jsonify(store.review(run_id,data['version'],data.get('decision'),reviewer,material))
+    @app.get('/api/runs/<run_id>/signatures')
+    def signatures(run_id):return jsonify(store.ledger(run_id))
     @app.get('/api/archive/<run_id>/export.csv')
     def download(run_id):
         state=store.get(run_id)

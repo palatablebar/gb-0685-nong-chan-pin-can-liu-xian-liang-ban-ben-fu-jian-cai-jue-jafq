@@ -29,6 +29,9 @@
 | TRAP-14 | 同版冲突 | 最后覆盖 | 整组隔离 | `app/modules/m2_mapping/rules.py` | `tests/test_mapping.py::test_real_conflict_quarantine` |
 | TRAP-18 | 三种空态 | 除零或伪成功 | 三个错误码 | `app/modules/m1_ingest/reader.py` | `tests/test_ingest.py::test_empty_three_states` |
 | TRAP-26 | 旧版本复核 | 覆盖新结论 | 事务条件更新 | `app/store.py` | `tests/test_archive.py::test_stale_review` |
+| TRAP-27 | 双人同时复核 | 两个当前版本 | 写锁串行化，一笔当前其余留痕 | `app/store.py` | `tests/test_adjudication.py::test_simultaneous_submission_keeps_single_current` |
+| TRAP-28 | 重试同一意见 | 版本虚增 | 签字指纹幂等 | `app/store.py` | `tests/test_adjudication.py::test_same_opinion_retry_adds_no_version` |
+| TRAP-29 | 复核处理中断 | 版本与账条半写 | 版本与签字账同事务回滚 | `app/store.py` | `tests/test_adjudication.py::test_interrupted_review_keeps_old_version` |
 | TRAP-15 | ug/kg与mg/kg | 差1000倍 | 浓度统一mg/kg | `app/modules/m4_segments/rules.py` | `tests/test_segments.py::test_unit_conversion` |
 | TRAP-25 | 标准时间边界 | 双版或错版 | 采样日半开区间选版 | `app/modules/m3_versions/standards.py` | `tests/test_versions.py::test_halfopen_effective` |
 | TRAP-20 | 复检引用环 | 遍历无法结束 | 引用路径检测 | `app/modules/m5_calculate/rules.py` | `tests/test_calculate.py::test_cycle_rejected` |
